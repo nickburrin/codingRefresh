@@ -45,6 +45,7 @@ public class Main {
 		
 		//stringPermutation("word", "");
 		stringBuilder(new String[]{"hello", "world", "my", "name", "is", "Nick"});
+		
 	}
 	
 	public static void stringBuilder(String[] words){
