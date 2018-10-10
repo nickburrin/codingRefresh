@@ -58,13 +58,141 @@ public class Main {
 		}
 	*/
 		//out.println(URLify("Mr John Smith    ", 13));
-		out.println(oneEditAway("pale", "ple"));
+		//out.println(oneEditAway("bale", "pale"));
+		//out.println(stringCompression("aabcccccaaa"));
+		zeroMatrix(3, 4);
 	}
 	
+	private static void zeroMatrix(int rows, int cols) {
+		int[][] matrix = new int[rows][cols];
+		for(int i = 0; i < matrix.length; i++){
+			for(int j = 0; j < matrix[0].length; j++){
+				matrix[i][j] = (int) (Math.random()*10);
+			}
+			
+			out.println(Arrays.toString(matrix[i]));
+		}
+			
+		out.println();
+		
+		setZeros(matrix);
+		
+		for(int i = 0; i < matrix.length; i++){
+			out.println(Arrays.toString(matrix[i]));
+		}
+	}
+
+	private static void setZeros(int[][] matrix) {
+		boolean rowHasZero = false;
+		boolean colHasZero = false;
+		
+		// Check for 0's in first row
+		for(int j = 0; j < matrix[0].length; j++){
+			if(matrix[0][j] == 0){
+				rowHasZero = true;
+				break;
+			}
+		}
+
+		// Check for 0's in first column
+		for(int i = 0; i < matrix.length; i++){
+			if(matrix[i][0] == 0){
+				colHasZero = true;
+				break;
+			}
+		}
+		
+		// Check for 0's in rest of matrix
+		for(int i = 1; i < matrix.length; i++){
+			for(int j = 1; j < matrix[0].length; j++){
+				if(matrix[i][j] == 0){
+					matrix[i][0] = 0;
+					matrix[0][j] = 0;
+				}
+			}
+		}
+		
+		// Nullify rows accordingly
+		for(int i = 1; i < matrix.length; i++){
+			if(matrix[i][0] == 0){
+				nullifyRow(matrix, i);
+			}
+		}
+		
+		// Nullify columns accordingly
+		for(int j = 1; j < matrix[0].length; j++){
+			if(matrix[0][j] == 0){
+				nullifyColumn(matrix, j);
+			}
+		}
+		
+		if(rowHasZero){
+			nullifyRow(matrix, 0);
+		}
+		
+		if(colHasZero){
+			nullifyColumn(matrix, 0);
+		}
+	}
+
+	private static void nullifyRow(int[][] matrix, int n) {
+		for(int j = 0; j < matrix[0].length; j++){
+			matrix[n][j] = 0;
+		}
+	}
+	
+	private static void nullifyColumn(int[][] matrix, int n) {
+		for(int i = 0; i < matrix.length; i++){
+			matrix[i][n] = 0;
+		}
+	}
+
+	private static String stringCompression(String string) {
+		String result = "";
+		char[] str = string.toCharArray();
+		char c = str[0];
+		int index = 0,
+			count = 0;
+				
+		for(int i = 0; i < str.length; i++){
+			if(str[i] == c){
+				count++;
+				
+				if(i == str.length - 1)
+					result += c + Integer.toString(count);
+			}
+			else{
+				result += c + Integer.toString(count);
+				c = str[i];
+				index = i;
+				count = 1;
+			}
+		}
+		
+		return result.length() > string.length() ? string : result;
+	}
+
 	private static boolean oneEditAway(String w1, String w2) {
+		// Strings have to be within one character of length to qualify
+		int s1 = w1.length();
+		int s2 = w2.length();
+		if(Math.abs(s1 - s2) > 1)
+			return false;
 
-
-		return false;
+		int errors = 0;
+		while( s1 >= 0 && s2 >= 0 && (Math.abs(s1) <= 1 && errors < 2) ){
+			if(w1.charAt(s1) == w2.charAt(s2)){
+				s1--; s2--;
+			} else if(w1.charAt(s1 - 1) == w2.charAt(s2)){
+				errors += 1;
+				s2--;
+			} else if(w2.charAt(s2 - 1) == w1.charAt(s1)){
+				errors += 1;
+				s1--;
+			}
+		}
+		
+		return errors < 2;
 	}
 
 	private static char[] URLify(String string, int numChars) {
