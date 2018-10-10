@@ -44,8 +44,111 @@ public class Main {
         */
 		
 		//stringPermutation("word", "");
-		stringBuilder(new String[]{"hello", "world", "my", "name", "is", "Nick"});
+		//stringBuilder(new String[]{"hello", "world", "my", "name", "is", "Nick"});
+		//recursivePermute("", "help");
+		//out.println(allUniqueChars("help"));
+		//out.println(isPermutation("god", "dog"));
+	/*
+		String shorter = "abbc";
+		String longer = "cbabadcbbabbcbabaabccbabc";
+		out.println("The string " + longer + " contains the following permutations of the word " + shorter + ":");
+		ArrayList<String> permutations = findPermutations(longer, shorter);
+		for(String s: permutations){
+			out.println(s);
+		}
+	*/
+		//out.println(URLify("Mr John Smith    ", 13));
+		out.println(oneEditAway("pale", "ple"));
+	}
+	
+	private static boolean oneEditAway(String w1, String w2) {
+
+
+		return false;
+	}
+
+	private static char[] URLify(String string, int numChars) {
+		out.println(string);
 		
+		char[] result = string.toCharArray();
+		
+		int spaces = (result.length - numChars)/2;
+		
+		int i = result.length - 1;
+		while(i >= 0 && spaces > 0){
+			if(result[i - spaces*2] == ' '){
+				result[i] = '0';
+				result[i-1] = '2';
+				result[i-2] = '%';
+				i -= 3;
+				spaces -= 1;
+			}
+			
+			result[i] = result[i - spaces*2];
+			i--;
+		}
+
+		return result;
+	}
+
+	private static ArrayList<String> findPermutations(String longer, String shorter) {
+		ArrayList<String> result = new ArrayList<String>();
+		
+		int window = shorter.length();
+		String temp = "";
+		boolean equal = false;
+		
+		for(int i = 0; i <= longer.length() - window; i++){
+			if(isPermutation(longer.substring(i, i + window), shorter))
+				result.add(longer.substring(i, i + window));
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Checks if two strings are permutations of the other.
+	 * Strings must be the same length to be a permutation
+	 * @param word1
+	 * @param word2
+	 * @return true / false: whether the strings are permutations
+	 */
+	private static boolean isPermutation(String word1, String word2) {
+		if(word1.length() != word2.length())
+			return false;
+		
+		word1 = stringSort(word1);
+		
+		return word1.equals(stringSort(word2));
+	}
+
+	private static String stringSort(String word) {
+		char[] tempArray = word.toCharArray();
+		Arrays.sort(tempArray);
+		return new String(tempArray);
+	}
+
+
+	private static boolean allUniqueChars(String word) {
+		for(int i = 0; i < word.length()-1; i++){
+			for(int j = i+1; j < word.length(); j++){
+				if(word.charAt(i) == word.charAt(j))
+					return false;
+			}
+		}
+
+		return true;
+	}
+
+	public static void recursivePermute(String prefix, String word){
+		int n = word.length() ; 
+		if(n == 0)
+			out.println(prefix);
+		else{
+			for(int i = 0; i < n; i++){
+				recursivePermute(prefix + word.charAt(i), word.substring(0, i) + word.substring(i+1, n));
+			}
+		}
 	}
 	
 	public static void stringBuilder(String[] words){
