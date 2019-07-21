@@ -64,19 +64,18 @@ public class Solution {
      */
     static long repeatedString(String s, long n) {
         long result = 0;
+        long occurrencesInString = 0; 
 
-        if (n > s.length()) {
-            result += repeatedString(s, n - s.length());
+        for (char c: s.toCharArray()) {
+            if (c == 'a')
+                occurrencesInString += 1;
         }
 
-        char[] charArray;
+        long multiplier = n / s.length();
+        int remainder = (int) (n % s.length());
+        result = occurrencesInString * multiplier;
 
-        if (n < s.length())
-            charArray = s.substring(0, (int)n).toCharArray();
-        else
-            charArray = s.toCharArray();
-
-        for(char c: charArray) {
+        for (char c: s.substring(0, remainder).toCharArray()) {
             if (c == 'a')
                 result += 1;
         }
