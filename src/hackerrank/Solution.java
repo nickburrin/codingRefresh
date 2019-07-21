@@ -55,20 +55,43 @@ public class Solution {
         return minJumps;
     }
 
+    /**
+     * Print a single integer denoting the number of letter a's in the first 'n' letters of the 
+     * infinite string created by repeating 's' infinitely many times.
+     * @param s - the string to be repeated
+     * @param n - the limited number of characters to account for in the repeated string
+     * @return
+     */
+    static long repeatedString(String s, long n) {
+        long result = 0;
+
+        if (n > s.length()) {
+            result += repeatedString(s, n - s.length());
+        }
+
+        char[] charArray;
+
+        if (n < s.length())
+            charArray = s.substring(0, (int)n).toCharArray();
+        else
+            charArray = s.toCharArray();
+
+        for(char c: charArray) {
+            if (c == 'a')
+                result += 1;
+        }
+
+        return result;
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File(args[0]));
         
         while (scanner.hasNext()){
-            int n = Integer.parseInt(scanner.nextLine());
-            int[] clouds = new int[n];
+            String chars = scanner.nextLine();
+            long n = Long.parseLong(scanner.nextLine());
 
-            String[] arItems = scanner.nextLine().split(" ");
-
-            for (int i = 0; i < n; i++) {
-                clouds[i] = Integer.parseInt(arItems[i]);
-            }
-
-            System.out.println("Minimum number of moves is: " + jumpingOnClouds(clouds));
+            System.out.println("'a' occurs in the first " + n + " characters of the infinitely repeated string '" + chars + "' " + repeatedString(chars, n) + " times.");
         }
 
         scanner.close();
