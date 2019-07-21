@@ -60,9 +60,87 @@ public class Main {
 		//out.println(URLify("Mr John Smith    ", 13));
 		//out.println(oneEditAway("bale", "pale"));
 		//out.println(stringCompression("aabcccccaaa"));
-		zeroMatrix(3, 4);
+		//zeroMatrix(3, 4);
+		//out.println(isRotation("waterbottle".toCharArray(), "erbottlewat".toCharArray()));
+		//out.println(ascii_deletion_distance("cat", "at"));
+		out.println(bracket_error("()"));
 	}
 	
+	private static int bracket_error(String string) {
+		Deque<Character> stack = new ArrayDeque<Character>();
+		int reserve = 0;
+		int errors = 0;
+		
+		for(int i = 0; i < string.length(); i++){
+			char c = string.charAt(i);
+			
+			if(c == '('){
+				reserve += 1;
+			}
+			else if(c == ')'){
+				if(reserve <= 0){
+					errors += 1;
+				} else{
+					reserve -= 1;
+				}
+			}
+		}
+		
+		errors += reserve;
+		return errors;
+
+	}
+
+	public static int ascii_deletion_distance(String str1, String str2) {
+        int i = 0, j = 0;
+        int distance = 0;
+        
+        for(i = 0; i < str1.length(); i++){
+              if(str1.charAt(i) == str2.charAt(j))
+                  j++;
+              else if(str1.charAt(i) == str2.charAt(j+1)){
+                      distance += str1.charAt(i) + 2;
+                      j++;
+              } else if(str1.charAt(i+1) == str2.charAt(j)){
+                      distance += str2.charAt(j) + 2;        
+              }
+        }
+        
+        for(j = j; j < str2.length(); j++){
+             distance += str2.charAt(j) + 2;   
+        }
+        
+        return distance;
+    }
+	
+	private static boolean isRotation(char[] word1, char[] word2) {
+		if(word1.length != word2.length)
+			return false;
+		
+		int begIndex = 0, j = 0;
+		
+		// Go through the word1 once and compare with word2 
+		for(int i = 0; i < word1.length; i++){
+			if(word1[i] == word2[j])
+				j++;	// Increment word2 index when you get an equals
+			else
+				begIndex = i + 1;	// Remember the last index where strings were not equal
+		}
+		
+		// The sum of the index of the last compared letter and the place to pick up should equal the length of the word 
+		if( (begIndex + j - 1) != word2.length)
+			return false;
+
+		for(int i = 0; i < word1.length - begIndex; i++){
+			if(word1[i] != word2[j])
+				return false;
+			
+			j++;
+		}
+		
+		return true;
+	}
+
 	private static void zeroMatrix(int rows, int cols) {
 		int[][] matrix = new int[rows][cols];
 		for(int i = 0; i < matrix.length; i++){
