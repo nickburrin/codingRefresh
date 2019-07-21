@@ -7,14 +7,21 @@ public class Solution {
 
     // Complete the sockMerchant function below.
     static int sockMerchant(int n, int[] ar) {
-        int[] sockCounter = new int[100];
-        for (int i = 0; i < n; i++){
-            sockCounter[ar[i]] += 1;
-        }
-
+        Map<Integer, Boolean> sockCounter = new HashMap<Integer, Boolean>();
+        
         int pairs = 0;
-        for (int i = 0; i < 100; i++) {
-            pairs += sockCounter[i] / 2;
+        for (int i = 0; i < n; i++) {
+            int sockId = ar[i];
+            if (sockCounter.containsKey(sockId)) {
+                if (sockCounter.get(sockId)) {
+                    sockCounter.put(sockId, false);
+                    pairs += 1;
+                } else {
+                    sockCounter.put(sockId, true);
+                }
+            } else {
+                sockCounter.put(sockId, true);
+            }
         }
 
         return pairs;
