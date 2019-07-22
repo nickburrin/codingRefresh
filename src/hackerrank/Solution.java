@@ -83,15 +83,65 @@ public class Solution {
         return result;
     }
 
+    /**
+     * There are 16 hourglasses in arr, and an hourglass sum is the sum of an hourglass' values. 
+     * Calculate the hourglass sum for every hourglass in arr, then return the maximum hourglass sum.
+     * 
+     * An hourglass looks like this:
+     * a b c
+     *   d
+     * e f g
+     * @param arr - a 6x6 array 
+     * @return
+     */
+    static int maxHourglassSum(int[][] arr) {
+        int maxSum = Integer.MIN_VALUE;
+
+        int numColumns = arr[0].length;
+        int numRows = arr[0].length;
+        for (int leftColumn = 0; leftColumn < numColumns - 2; leftColumn++) {
+            for (int topRow = 0; topRow < numRows - 2; topRow++) {
+                int sum = calculateHourglassSum(arr, leftColumn, topRow);
+                if (sum > maxSum)
+                    maxSum = sum;
+            }
+        }
+
+        return maxSum;
+    }
+
+    static int calculateHourglassSum(int[][] arr, int leftColumn, int topRow) {
+        int sum = 0;
+        sum += arr[topRow][leftColumn];
+        sum += arr[topRow][leftColumn+1];
+        sum += arr[topRow][leftColumn+2];
+        sum += arr[topRow+1][leftColumn+1];
+        sum += arr[topRow+2][leftColumn];
+        sum += arr[topRow+2][leftColumn+1];
+        sum += arr[topRow+2][leftColumn+2];
+
+        return sum;
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File(args[0]));
         
-        while (scanner.hasNext()){
-            String chars = scanner.nextLine();
-            long n = Long.parseLong(scanner.nextLine());
+        int[][] arr = new int[6][6];
+        // while (scanner.hasNext()){
+        //     String chars = scanner.nextLine();
+        //     long n = Long.parseLong(scanner.nextLine());
 
-            System.out.println("'a' occurs in the first " + n + " characters of the infinitely repeated string '" + chars + "' " + repeatedString(chars, n) + " times.");
+        // }
+        for (int i = 0; i < 6; i++) {
+            String[] arrRowItems = scanner.nextLine().split(" ");
+
+            for (int j = 0; j < 6; j++) {
+                int arrItem = Integer.parseInt(arrRowItems[j]);
+                arr[i][j] = arrItem;
+            }
         }
+
+        System.out.println("The maxSum of the hourglass is: " + maxHourglassSum(arr));
 
         scanner.close();
     }
