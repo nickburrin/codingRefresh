@@ -123,15 +123,30 @@ public class Solution {
         return sum;
     }
 
+    static int countingValleys(int n, String s) {
+        int prevAltitude = 0;
+        int altitude = 0;
+        int valleys = 0;
+
+        for (int i = 0; i < n; i++) {
+            prevAltitude = altitude;
+            if (s.charAt(i) == 'U') {
+                altitude += 1;
+                if (prevAltitude == -1)
+                    valleys += 1;
+            } else {
+                altitude -= 1;
+            }
+        }
+
+        return valleys;
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File(args[0]));
         
         int[][] arr = new int[6][6];
-        // while (scanner.hasNext()){
-        //     String chars = scanner.nextLine();
-        //     long n = Long.parseLong(scanner.nextLine());
 
-        // }
         for (int i = 0; i < 6; i++) {
             String[] arrRowItems = scanner.nextLine().split(" ");
 
@@ -139,9 +154,18 @@ public class Solution {
                 int arrItem = Integer.parseInt(arrRowItems[j]);
                 arr[i][j] = arrItem;
             }
+
+        String steps = scanner.readLine();
+/*
+        int[] ar = new int[n];
+        for (int i = 0; i < n; i++) {
+            int arItem = Integer.parseInt(arItems[i]);
+            ar[i] = arItem;
         }
+        */
 
         System.out.println("The maxSum of the hourglass is: " + maxHourglassSum(arr));
+//        System.out.println(countingValleys(n, steps));
 
         scanner.close();
     }
