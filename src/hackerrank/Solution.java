@@ -27,21 +27,40 @@ public class Solution {
         return pairs;
     }
 
+    static int countingValleys(int n, String s) {
+        int prevAltitude = 0;
+        int altitude = 0;
+        int valleys = 0;
+
+        for (int i = 0; i < n; i++) {
+            prevAltitude = altitude;
+            if (s.charAt(i) == 'U') {
+                altitude += 1;
+                if (prevAltitude == -1)
+                    valleys += 1;
+            } else {
+                altitude -= 1;
+            }
+        }
+
+        return valleys;
+    }
+
     public static void main(String[] args) throws IOException {
-        BufferedReader scanner = Files.newBufferedReader(Paths.get("input.txt"));
+        BufferedReader scanner = Files.newBufferedReader(Paths.get("valleys.txt"));
         
         int n = Integer.parseInt(scanner.readLine());
 
+        String steps = scanner.readLine();
+/*
         int[] ar = new int[n];
-
-        String[] arItems = scanner.readLine().split(" ");
-
         for (int i = 0; i < n; i++) {
             int arItem = Integer.parseInt(arItems[i]);
             ar[i] = arItem;
         }
+        */
 
-        System.out.println(sockMerchant(n, ar));
+        System.out.println(countingValleys(n, steps));
 
         scanner.close();
     }
