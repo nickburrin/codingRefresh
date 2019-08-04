@@ -158,6 +158,7 @@ public class Solution {
             difference.computeDifference();
             System.out.println("Max difference of " + difference.printElements() + " is:");
             System.out.println(difference.maximumDifference);
+            System.out.println();
         }
         
         scanner.close();

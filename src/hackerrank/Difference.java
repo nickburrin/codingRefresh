@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package hackerrank;
+
 import java.util.Arrays;
 
 class Difference {
@@ -11,15 +12,24 @@ class Difference {
     }
 
     public void computeDifference() {
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
+        int min = this.elements[0];
+        int max = this.elements[0];
+        this.maximumDifference = Math.abs(max - min);
 
         for (Integer num : this.elements) {
-            max = num > max ? num : max;
-            min = num < min ? num : min;
-        }
+            int diff1 = Math.abs(max - num);
+            int diff2 = Math.abs(num - min);
 
-        this.maximumDifference = Math.abs(max - min);
+            if (diff1 > this.maximumDifference) {
+                this.maximumDifference = diff1;
+                min = num;
+            }
+
+            if (diff2 > this.maximumDifference) {
+                this.maximumDifference = diff2;
+                max = num;
+            }
+        }
     }
 
 	public String printElements() {
