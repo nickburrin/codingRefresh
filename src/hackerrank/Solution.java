@@ -1,6 +1,8 @@
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Solution {
@@ -145,28 +147,19 @@ public class Solution {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File(args[0]));
         
-        int[][] arr = new int[6][6];
-
-        for (int i = 0; i < 6; i++) {
-            String[] arrRowItems = scanner.nextLine().split(" ");
-
-            for (int j = 0; j < 6; j++) {
-                int arrItem = Integer.parseInt(arrRowItems[j]);
-                arr[i][j] = arrItem;
+        while(scanner.hasNext()) {
+            int n = scanner.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = scanner.nextInt();
             }
 
-        String steps = scanner.readLine();
-/*
-        int[] ar = new int[n];
-        for (int i = 0; i < n; i++) {
-            int arItem = Integer.parseInt(arItems[i]);
-            ar[i] = arItem;
+            Difference difference = new Difference(a);
+            difference.computeDifference();
+            System.out.println("Max difference of " + difference.printElements() + " is:");
+            System.out.println(difference.maximumDifference);
         }
-        */
-
-        System.out.println("The maxSum of the hourglass is: " + maxHourglassSum(arr));
-//        System.out.println(countingValleys(n, steps));
-
+        
         scanner.close();
     }
 }
