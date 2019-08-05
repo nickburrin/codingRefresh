@@ -142,24 +142,43 @@ class Solution {
         return valleys;
     }
 
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(new File(args[0]));
+    static int maxConsecutiveOnesInBinary(int n) {
+        if(n == 0)
+            return 0;
         
-        SinglyLinkedList llist = new SinglyLinkedList();
+        String binaryString = "";
 
-        while(scanner.hasNext()) {
-            int llistCount = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        while(n > 0) {
+            if (n % 2 == 1)
+                binaryString = "1" + binaryString;
+            else
+                binaryString = "0" + binaryString;
 
-            for (int i = 0; i < llistCount; i++) {
-                int llistItem = scanner.nextInt();
-                scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+            n = n >> 1;
+        }
 
-                llist.insertNode(llistItem);
+        int maxConsecutiveOnes = 0;
+        int count = 0;
+        for (int i = 0; i < binaryString.length(); i++) {
+            if (binaryString.charAt(i) == '1')
+                count += 1;
+            else {
+                maxConsecutiveOnes = count > maxConsecutiveOnes ? count : maxConsecutiveOnes;
+                count = 0;
             }
         }
 
-        System.out.println(llist.toString());
+        maxConsecutiveOnes = count > maxConsecutiveOnes ? count : maxConsecutiveOnes;
+
+        return maxConsecutiveOnes;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(new File(args[0]));
+
+        while(scanner.hasNext()) {
+            System.out.println(maxConsecutiveOnesInBinary(scanner.nextInt()));
+        }
         
         scanner.close();
     }
