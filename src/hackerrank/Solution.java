@@ -147,29 +147,22 @@ class Solution {
             return 0;
         
         String binaryString = "";
-
-        while(n > 0) {
-            if (n % 2 == 1)
-                binaryString = "1" + binaryString;
-            else
-                binaryString = "0" + binaryString;
-
-            n = n >> 1;
-        }
-
         int maxConsecutiveOnes = 0;
         int count = 0;
-        for (int i = 0; i < binaryString.length(); i++) {
-            if (binaryString.charAt(i) == '1')
+
+        while(n > 0) {
+            if (n % 2 == 1) {
                 count += 1;
+            }
             else {
                 maxConsecutiveOnes = count > maxConsecutiveOnes ? count : maxConsecutiveOnes;
                 count = 0;
             }
+
+            n = n >> 1;
         }
 
         maxConsecutiveOnes = count > maxConsecutiveOnes ? count : maxConsecutiveOnes;
-
         return maxConsecutiveOnes;
     }
 
