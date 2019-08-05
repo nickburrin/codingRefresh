@@ -1,11 +1,9 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Solution {
+class Solution {
 
     // Complete the sockMerchant function below.
     static int sockMerchant(int n, int[] ar) {
@@ -147,19 +145,21 @@ public class Solution {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File(args[0]));
         
-        while(scanner.hasNext()) {
-            int n = scanner.nextInt();
-            int[] a = new int[n];
-            for (int i = 0; i < n; i++) {
-                a[i] = scanner.nextInt();
-            }
+        SinglyLinkedList llist = new SinglyLinkedList();
 
-            Difference difference = new Difference(a);
-            difference.computeDifference();
-            System.out.println("Max difference of " + difference.printElements() + " is:");
-            System.out.println(difference.maximumDifference);
-            System.out.println();
+        while(scanner.hasNext()) {
+            int llistCount = scanner.nextInt();
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int i = 0; i < llistCount; i++) {
+                int llistItem = scanner.nextInt();
+                scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+                llist.insertNode(llistItem);
+            }
         }
+
+        System.out.println(llist.toString());
         
         scanner.close();
     }
