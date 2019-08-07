@@ -181,26 +181,69 @@ class Solution {
         return b*Math.min(bc, wc+z) + w*Math.min(wc, bc+z);
     }
 
+    public static int log2(long x) {
+        return (int) (Math.log(x) / Math.log(2));
+    }
+    
+    static long[] convertStringsToBinary(String[] topic, int n) {
+        long[] result = new long[n];
+
+        for(int i = 0; i < topic.length; i++) {
+            long num = 0; 
+            long mult = 1;
+            
+            for(int c = topic[i].length()-1; c >= 0; c--) {
+                num += Character.getNumericValue(topic[i].charAt(c)) * mult;
+                mult = mult << 1;
+            }
+            result[i] = num;
+        }
+
+        return result;
+    }
+
+    static int[] acmTeam(String[] topic, int subjectCount) {
+        int[] result = new int[2];
+
+        long[] binaryStrings = convertStringsToBinary(topic, subjectCount);
+        
+        int count = 0;
+        long max = 0;
+        long mask = (long)(Math.pow(2, subjectCount) - 1.0);
+        
+        for(int i = 0; i < topic.length - 1; i++) {
+            for(int j = i+1; j < topic.length; j++) {
+                long teamKnowledge = (binaryStrings[i] | binaryStrings[j]);
+                if(teamKnowledge == mask)
+                    count += 1;
+                max = Math.max(max, teamKnowledge);
+            }
+        }
+        
+        result[0] = log2(max+1);
+        result[1] = count;
+
+        return result;
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File(args[0]));
 
-        int t = scanner.nextInt();
-        scanner.nextLine();
+        String[] nm = scanner.nextLine().split(" ");
+        int n = Integer.parseInt(nm[0]);
+        int m = Integer.parseInt(nm[1]);
 
-        for (int i = 0; i < t; i++) {
-            String[] firstMultipleInput = scanner.nextLine().split(" ");
-            int b = Integer.parseInt(firstMultipleInput[0]);
-            int w = Integer.parseInt(firstMultipleInput[1]);
+        String[] topic = new String[n];
 
-            String[] secondMultipleInput = scanner.nextLine().split(" ");
-            int bc = Integer.parseInt(secondMultipleInput[0]);
-            int wc = Integer.parseInt(secondMultipleInput[1]);
-            int z = Integer.parseInt(secondMultipleInput[2]);
-
-            long result = taumBday(b, w, bc, wc, z);
-
-            System.out.println(String.valueOf(result));
+        for (int i = 0; i < n; i++) {
+            String topicItem = scanner.nextLine();
+            topic[i] = topicItem;
         }
+
+        int[] result = acmTeam(topic, m);
+
+        for(Integer i : result)
+            System.out.println(i);
         
         scanner.close();
     }
