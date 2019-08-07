@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -226,25 +227,58 @@ class Solution {
         return result;
     }
 
+    // Head of stack is at last index (size - 1)
+    ArrayList<Character> stack = new ArrayList<>();
+    // Head of queue is at first index (0), tail is at last index (size - 1)
+    ArrayList<Character> queue = new ArrayList<>();
+    
+    private void pushCharacter(char c) {
+        this.stack.add(c);
+    }
+
+    private char popCharacter() {
+        return this.stack.remove(this.stack.size() - 1);
+    }
+
+    private void enqueueCharacter(char c) {
+        this.queue.add(c);
+    }
+
+    private char dequeueCharacter() {
+        return this.queue.remove(0);
+    }
+
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(new File(args[0]));
+        Scanner scan = new Scanner(System.in);
 
-        String[] nm = scanner.nextLine().split(" ");
-        int n = Integer.parseInt(nm[0]);
-        int m = Integer.parseInt(nm[1]);
+        String input = scan.nextLine();
+        scan.close();
 
-        String[] topic = new String[n];
+        // Convert input String to an array of characters:
+        char[] s = input.toCharArray();
 
-        for (int i = 0; i < n; i++) {
-            String topicItem = scanner.nextLine();
-            topic[i] = topicItem;
+        // Create a Solution object:
+        Solution p = new Solution();
+
+        // Enqueue/Push all chars to their respective data structures:
+        for (char c : s) {
+            p.pushCharacter(c);
+            p.enqueueCharacter(c);
         }
 
-        int[] result = acmTeam(topic, m);
+        // Pop/Dequeue the chars at the head of both data structures and compare them:
+        boolean isPalindrome = true;
+        for (int i = 0; i < s.length/2; i++) {
+            if (p.popCharacter() != p.dequeueCharacter()) {
+                isPalindrome = false;                
+                break;
+            }
+        }
 
-        for(Integer i : result)
-            System.out.println(i);
+        //Finally, print whether string s is palindrome or not.
+        System.out.println( "The word, " + input + ", is " 
+                           + ( (!isPalindrome) ? "not a palindrome." : "a palindrome." ) );
         
-        scanner.close();
+        scan.close();
     }
 }
