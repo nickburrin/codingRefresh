@@ -166,22 +166,41 @@ class Solution {
         return maxConsecutiveOnes;
     }
 
+    /*
+     * Complete the 'taumBday' function below.
+     *
+     * The function is expected to return a LONG_INTEGER.
+     * The function accepts following parameters:
+     *  1. b - the number of black gifts to buy
+     *  2. w - the number of white gifts to buy
+     *  3. bc - the cost to purchase a single black gift
+     *  4. wc - the cost to purchase a single white gift
+     *  5. z - the cost to convert a gift to the other color
+     */
+    public static int taumBday(int b, int w, int bc, int wc, int z) {
+        return b*Math.min(bc, wc+z) + w*Math.min(wc, bc+z);
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File(args[0]));
 
-        SinglyLinkedList llist = new SinglyLinkedList();
+        int t = scanner.nextInt();
+        scanner.nextLine();
 
-        int llistCount = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        for (int i = 0; i < t; i++) {
+            String[] firstMultipleInput = scanner.nextLine().split(" ");
+            int b = Integer.parseInt(firstMultipleInput[0]);
+            int w = Integer.parseInt(firstMultipleInput[1]);
 
-        for (int i = 0; i < llistCount; i++) {
-            int llistItem = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+            String[] secondMultipleInput = scanner.nextLine().split(" ");
+            int bc = Integer.parseInt(secondMultipleInput[0]);
+            int wc = Integer.parseInt(secondMultipleInput[1]);
+            int z = Integer.parseInt(secondMultipleInput[2]);
 
-            llist.insertNodeAtTail(llist.head, llistItem);
+            long result = taumBday(b, w, bc, wc, z);
+
+            System.out.println(String.valueOf(result));
         }
-
-        System.out.println(llist);
         
         scanner.close();
     }
