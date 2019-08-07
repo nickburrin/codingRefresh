@@ -169,9 +169,19 @@ class Solution {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File(args[0]));
 
-        while(scanner.hasNext()) {
-            System.out.println(maxConsecutiveOnesInBinary(scanner.nextInt()));
+        SinglyLinkedList llist = new SinglyLinkedList();
+
+        int llistCount = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int i = 0; i < llistCount; i++) {
+            int llistItem = scanner.nextInt();
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            llist.insertNodeAtTail(llist.head, llistItem);
         }
+
+        System.out.println(llist);
         
         scanner.close();
     }

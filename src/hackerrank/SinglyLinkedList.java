@@ -19,6 +19,21 @@ class SinglyLinkedList {
         this.tail = node;
     }
 
+    public Node insertNodeAtTail(Node head, int data) {
+        if (head == null) {
+            this.head = new Node(data);
+            return this.head;
+        }
+        
+        Node nextNode = head;
+        while(nextNode.next != null) {
+            nextNode = nextNode.next;
+        }
+        nextNode.next = new Node(data);
+
+        return head;
+    }
+
     public String toString() {
         Node node = this.head;
         String asString = "";
